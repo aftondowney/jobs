@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__."/Contact.php";
+// require_once __DIR__."/Contact.php";
 
 class JobOpening
 {
     private $title;
     private $description;
-    // public $contact;
+    private $contact;
 
     function __construct($title, $description, $contact)
     {
@@ -34,18 +34,15 @@ class JobOpening
       return $this->description;
     }
 
-    // function setContact()
-    // {
-    //   $this->contact = $contact;
-    //   $contact = new stdClass($name, $email);
-    //   $contact->name = $name;
-    //   $contact->email = $email;
-    // }
-    //
-    // function getContact()
-    // {
-    //   return $this->contact;
-    // }
+    function setContact($new_contact)
+    {
+      $this->contact = $new_contact;
+    }
+
+    function getContact()
+    {
+      return $this->contact;
+    }
 
 }
 ?>

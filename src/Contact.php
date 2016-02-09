@@ -4,7 +4,7 @@
     private $name;
     private $email;
 
-      function _construct($name, $email)
+      function __construct($name, $email)
       {
          $this->name = $name;
          $this->email = $email;

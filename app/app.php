@@ -41,30 +41,26 @@
 
     $app->get("/view_job", function() {
 
-    $new_contact = new Contact($_GET['name'], $_GET['email']);
+    $new_contact = new Contact($_GET["name"], $_GET["email"]);
     $new_post = new JobOpening($_GET["title"], $_GET["description"], $new_contact);
+
     $new_title = $new_post->getTitle();
     $new_description = $new_post->getDescription();
-    $new_name = $new_contact->getName();
-    $new_email = $new_contact->getEmail();
+    $current_contact = $new_post->getContact();
 
-    $posts = array();
-    if($new_post && $new_contact){
-      array_push($posts, $new_post);
-    }
+    $new_name = $current_contact->getName();
+    $new_email = $current_contact->getEmail();
 
-
-    $output = "";
-    foreach($posts as $post){
-      $output .= "<div class='container'>
-      <p>" . $post->getTitle() . "</p>" .
-      "<p>" . $post->getDescription() . "</p>".
-      "<p>" . $new_contact->getName() . "</p>".
-      "<p>" . $new_contact->getEmail() . "</p>";
-
-    }
-    return $output;
-    // return "<p>$new_title" . ", " . "$new_description" . ", " . "$new_contact</p>";
+    // return "$new_name";
+    return "<ul>
+            <li>$new_title</li>
+            <li>$new_description</li>
+              <ul>
+                <li>$new_name</li>
+                <li>$new_email</li>
+              </ul>
+            </ul>
+            ";
   });
     return $app;
 ?>
