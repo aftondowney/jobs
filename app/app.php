@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__."/../vendor/autoload.php";
-    require_once __DIR__."/../src/job-opening.php";
+    require_once __DIR__."/../src/Job-Opening.php";
+    require_once __DIR__."/../src/Contact.php";
 
     $app = new Silex\Application();
 
@@ -24,8 +25,12 @@
                  <input id='description' name='description' class='form-control' type='text'>
                </div>
                <div class='form-group'>
-                 <label for='contact'>Enter the contact:</label>
-                 <input id='contact' name='contact' class='form-control' type='text'>
+                 <label for='name'>Enter your Name:</label>
+                 <input id='name' name='name' class='form-control' type='text'>
+               </div>
+               <div class='form-group'>
+                 <label for='email'>Enter your Email:</label>
+                 <input id='email' name='email' class='form-control' type='text'>
                </div>
                <button type='submit' class='btn-success'>Create</button>
            </form>
@@ -35,13 +40,31 @@
     });
 
     $app->get("/view_job", function() {
-    $new_post = new JobOpening($_GET["title"], $_GET["description"], $_GET["contact"]);
+
+    $new_contact = new Contact($_GET['name'], $_GET['email']);
+    $new_post = new JobOpening($_GET["title"], $_GET["description"], $new_contact);
     $new_title = $new_post->getTitle();
     $new_description = $new_post->getDescription();
-    $new_contact = $new_post->getContact();
-    return "<p>$new_title" . ", " . "$new_description" . ", " . "$new_contact</p>";
+    $new_name = $new_contact->getName();
+    $new_email = $new_contact->getEmail();
+
+    $posts = array();
+    if($new_post && $new_contact){
+      array_push($posts, $new_post);
+    }
 
 
-    });
+    $output = "";
+    foreach($posts as $post){
+      $output .= "<div class='container'>
+      <p>" . $post->getTitle() . "</p>" .
+      "<p>" . $post->getDescription() . "</p>".
+      "<p>" . $new_contact->getName() . "</p>".
+      "<p>" . $new_contact->getEmail() . "</p>";
+
+    }
+    return $output;
+    // return "<p>$new_title" . ", " . "$new_description" . ", " . "$new_contact</p>";
+  });
     return $app;
 ?>
